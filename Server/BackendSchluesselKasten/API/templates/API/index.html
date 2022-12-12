@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title></title>
+    </head>
+
+    <body>
+        
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Ziel</th>
+                <th>Weg seit</th>
+                <th>Zurueck seid</th>
+                {#<th>Zurueck</th>#}
+            </tr>
+        {% for ausgang in ausgaenge %}
+            <tr>
+                <td>{{ausgang.owner.get_full_name}}</td>
+                <td>{{ausgang.target}}</td>
+                <td>{{ausgang.start}}</td>
+                {% if ausgang.back == True %}
+                    <td>{{ausgang.end}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                {#<td>{{ausgang.back}}</td>#}
+            </tr>
+        {% endfor %}
+        </table>
+        {{ content }}
+        <style>
+            * {
+                padding: 0;
+                margin:0;
+            }
+            table {
+                border: 1px solid black;
+            }
+            th {
+                border-bottom: 1px solid black;
+                background: #ddd;
+                padding: 0;
+            }
+            tr:nth-child(2n) {
+                background: #497493;
+            }
+
+        </style>
+    </body>
+</html>

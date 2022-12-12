@@ -1,0 +1,87 @@
+@page {
+    size: a4 portrait;
+
+    @frame header_frame {
+        /* Static Frame */
+        -pdf-frame-content: header_content;
+        left: 2cm;
+        width: 17cm;
+        top: 1cm;
+        height: 3cm;
+    }
+
+    @frame content_frame {
+        /* Content Frame */
+        top: 4cm;
+        margin: 0 2cm;
+        height: 22cm;
+    }
+
+    @frame footer_frame {
+        /* Another static Frame */
+        -pdf-frame-content: footer_content;
+        margin: 0 2cm;
+        bottom: 2cm;
+        height: 10px;
+    }
+
+
+}
+
+#header {
+    width: 17cm;
+}
+
+.table {
+    border: .5px solid black;
+    border-bottom-style: none;
+    border-right-style: none;
+    padding-top: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+
+}
+
+.table tr {
+    border: none;
+    border-bottom-style: solid;
+    border-bottom-width: .5px;
+    border-bottom-color: black;
+}
+
+.table td,
+.table th {
+    border-right-style: solid;
+    border-right-width: .5px;
+    border-right-color: black;
+}
+
+
+th {
+    background-color: #0068b3;
+    color: white;
+    width: 4cm;
+}
+
+.data td {
+    width: 4cm;
+}
+
+td.center,
+th.center {
+    width: 1cm;
+    text-align: center;
+}
+
+#footer_content table {
+    vertical-align: bottom;
+    line-height: 10 px !important;
+}
+
+#n {
+    text-align: right;
+}
+
+#d {
+    text-align: left;
+}

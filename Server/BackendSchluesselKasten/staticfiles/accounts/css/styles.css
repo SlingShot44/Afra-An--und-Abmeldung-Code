@@ -1,0 +1,115 @@
+/* Utils */
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+}
+
+:root{
+    --blue:#0068b3;
+    --gray: #adadad;
+    --small: 576px;
+    --medium: 768px;
+    --large: 992px;
+}
+
+.bg-primary{
+    background-color: var(--blue)!important;
+}
+
+.text-primary{
+    color: var(--blue)!important;
+}
+
+.border-gray{
+    border-color: var(--gray)!important;
+}
+
+.text-gray{
+    color: var(--gray);
+}
+
+/* Center */
+.center{
+    border-radius: 3.5vw;
+}
+
+@media (max-width:992px){
+    .center{
+        width: 50%!important;
+        border-radius: 4vw;
+    }
+}
+
+@media (max-width:576px){
+    .center{
+        width: 75%!important;
+        border-radius: 5vw;
+    }
+}
+
+    /* Form */
+    form div input{
+        width: 100%;
+        padding: 0 5px;
+        height: 4vh;
+        font-size: 1rem;
+        border: none;
+        background: none;
+        outline: none; 
+    }
+
+    form div input:-webkit-autofill,
+    form div input:-webkit-autofill:hover,
+    form div input:-webkit-autofill:focus,
+    form div input:-webkit-autofill:active{
+        box-shadow: 0 0 0 30px white inset !important;
+        -webkit-box-shadow: 0 0 0 30px white inset !important;
+    }
+
+    form div label{
+        left: 5px;
+        transition: .5s;
+    }
+
+    form div span::before{
+        content: '';
+        position: absolute;
+        top: 4vh;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: var(--blue);
+        transition: .5s;
+    }
+
+    form div input:focus ~ label,
+    form div input:valid ~ label,
+    form div input:-webkit-autofill ~ label{
+        top: -5px!important;
+        color: var(--blue);
+    }
+
+    form div input:focus ~ span::before,
+    form div input:valid ~ span::before,
+    form div input:-webkit-autofill ~ span::before{
+        width: 100%;
+    }
+
+    button{
+        transition: .2s;
+        outline: none;
+    }
+
+    button:hover{
+        border: 1px solid var(--blue)!important;
+        color: var(--blue);
+    }
+
+    button:focus{
+        outline: none;
+        color: white;
+        background-color: var(--blue);
+        border: none;
+    }

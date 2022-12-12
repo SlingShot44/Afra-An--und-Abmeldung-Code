@@ -1,0 +1,26 @@
+{% if list|length == 0 %}
+    <div id="Placeholder">Keine Einträge!</div>
+{% else %} 
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Zielort</th>
+            <th>Vermutlich zurück</th>
+            <th>Start</th>
+            <th>Ankunft</th>
+        </tr>
+        {% for item in list %}
+            <tr>
+                <td>{{item.owner.get_full_name}}</td>
+                <td>{{item.target}}</td>
+                <td>{{item.expectedReturn}}</td>
+                <td>{{item.start}}</td>
+                {% if item.back == True %}
+                    <td>{{item.end}}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}

@@ -1,0 +1,66 @@
+{
+    "listeners": {
+        "*:80": {
+            "pass": "routes"
+        },
+        "*:443": {
+            "pass": "routes",
+            "tls": {
+                "certificate": "bundle",
+                "conf_commands": {
+                    "protocol": "TLSv1.2,TLSv1.3",
+                    "cipherstring": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384",
+                    "options": "-ServerPreference"
+                }
+            }
+        }
+    },
+    "routes": [
+        {
+            "match": {
+                "scheme": "http"
+            },
+            "action": {
+                "return": 301,
+                "location": "https://192.168.25.44${request_uri}"
+            }
+        },
+        {
+            "match": {
+                "uri": "/home/pi/Server/cert/ca.pem"
+            },
+            "action": {
+                "share": "/home/pi/Server/cert/ca.pem"
+            }
+        },
+        {
+            "match": {
+                "uri": "/staticfiles/*"
+            },
+            "action": {
+                "share": "/home/pi/Server/$uri"
+            }
+        },
+        {
+            "action": {
+                "pass": "applications/djangochannels"
+            }
+        }
+    ],
+    "applications": {
+        "djangochannels": {
+            "type": "python 3.9",
+            "path": "/home/pi/Server/",
+            "home": "/home/pi/Server/env/",
+            "module": "BackendSchluesselKasten.asgi",
+            "protocol": "asgi",
+            "environment": {
+                "DJANGO_SETTINGS_MODULE": "BackendSchluesselKasten.settings",
+                "SECRET_KEY": "Aus Sicherheitsgründen verändert",
+                "REDIS_UNAME": "Aus Sicherheitsgründen verändert",
+                "REDIS_PWD": "Aus Sicherheitsgründen verändert"
+            }
+        }
+    },
+    "access_log": "/home/pi/Server/config/access.log"
+}

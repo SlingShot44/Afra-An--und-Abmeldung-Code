@@ -1,0 +1,46 @@
+{% extends 'WebApp/Aktuell.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Verlauf{% endblock title %}
+
+{% block link %}<a class="navbar-brand d-inline-flex align-items-center" href="{% url 'WebApp:verlauf' %}">{% endblock link %}
+
+{% block nav %}
+    <div class="navbar-nav text-center ms-auto">
+        <a href="{% url 'WebApp:aktuell' %}" class="nav-link">Aktuell</a>
+        <a href="{% url 'WebApp:verlauf' %}" class="nav-link active">Verlauf</a>
+    </div>
+{% endblock nav %}
+
+{% block search %}
+    <div id="search-container" class="d-flex justify-content-center mt-3">
+        {% crispy form %}
+    </div>
+{% endblock search %}
+
+{% block th %}
+    <th class="fw-light">Ankunft</th>
+{% endblock th %}
+
+{% block td %}
+    {% for item in list %}
+        {% if item.back %}
+            <tr id="{{item.id}}" title="Zurück" class="infinite-item back">
+                <td>{{item.owner.get_full_name}}</td>
+                <td>{{item.owner.house}}</td>
+                <td>{{item.target}}</td>
+                <td>{{item.start}}</td>
+                <td>{{item.end}}</td>
+            </tr>
+        {% else %}
+            <tr id="{{item.id}}" title="Noch unterwegs" class="infinite-item away">
+                <td>{{item.owner.get_full_name}}</td>
+                <td>{{item.owner.house}}</td>
+                <td>{{item.target}}</td>
+                <td>{{item.start}}</td>
+                <td></td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+{% endblock td %}

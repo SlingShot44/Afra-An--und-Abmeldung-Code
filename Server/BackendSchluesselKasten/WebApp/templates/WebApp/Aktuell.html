@@ -1,0 +1,168 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Afra An- und Abmeldung - {% block title %}Aktuell{% endblock title %}</title>
+
+    {% comment %} Font {% endcomment %}
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
+    {% comment %} Icon {% endcomment %}
+    <link rel="shortcut icon" href="{% static 'images/logo.jpg' %}">
+
+    {% comment %} Bootstrap {% endcomment %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous" defer></script>
+
+    {% comment %} CSS {% endcomment %}
+    <link rel="stylesheet" href="{% static 'WebApp/css/styles.css' %}">
+    
+    {% comment %} Cookie JS {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    
+    {% comment %} Jquery {% endcomment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {% comment %} Waypoints {% endcomment %}
+    <script src="{% static 'WebApp/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'WebApp/js/infinite.min.js' %}"></script>
+
+    {% comment %} JS {% endcomment %}
+    <script src="{% static 'WebApp/js/modal.js' %}" defer></script>
+    <script src="{% static 'WebApp/js/run.js' %}" type="module"></script>
+</head>
+<body>
+    <div class="dialog closed vw-100 vh-100 position-fixed top-0 start-0">
+        <div class="dialog-content position-absolute top-50 start-50 translate-middle text-center">
+            <div>Datenbank wird überschrieben!</div>
+            <div class="loader m-auto position-absolute start-50 translate-middle-x">
+                <span class="bg-white position-absolute rounded-circle"></span>
+                <span class="bg-white position-absolute rounded-circle"></span>
+                <span class="bg-white position-absolute rounded-circle"></span>
+            </div>
+        </div>
+    </div>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-dark bg-primary container-fluid px-0 px-md-12">
+            <div class="container-lg px-0 px-md-12">
+                <div class="d-flex flex-nowrap justify-content-between container-fluid">
+                    {% block link %}<a class="navbar-brand d-inline-flex align-items-center" href="{% url 'WebApp:aktuell' %}">{% endblock link %}
+                        <img src="{% static 'images/logo.jpg' %}" alt="Logo" class="d-inline-block" id="header-logo">
+                        <div class="d-inline-block h1 fw-bold text-wrap my-0 ms-1">
+                            Afra An- und Abmeldung 
+                        </div>    
+                    </a>
+                    <button class="navbar-toggler my-auto ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    {% block nav %}
+                        <div class="navbar-nav text-center ms-auto">
+                            <a href="{% url 'WebApp:aktuell' %}" class="nav-link active">Aktuell</a>
+                            <a href="{% url 'WebApp:verlauf' %}" class="nav-link">Verlauf</a>
+                        </div>
+                    {% endblock nav %}
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="container-fluid px-0">
+        <div id="bars" class="container-fluid position-relative px-0">
+            <div id="toolbar-container" class="container-fluid position-relative px-0">
+                <div id="toolbar" class="position-absolute top-0 end-0 d-inline-block border-1 border-bottom border-start border-dark p-1">
+                    <div class="d-inline-block">Hallo, {{request.user.username}}!</div>
+                    <a href="{% url 'WebApp:pdf'%}" class="d-inline-block toolbar-download-link" download="Liste">
+                        <img src="{% static 'WebApp/images/pdf.png'%}" alt="Liste abwesender Schüler downloaden" title="Liste abwesender Schüler downloaden">
+                    </a>
+                    {% comment %} <input type="image" src="{%static 'WebApp/images/printer.png' %}" alt="" title="Liste aller abwesenden Schüler drucken" id="toolbar-print-button" class="d-inline-block"> {% endcomment %}
+                    <a href="/home/pi/Server/cert/ca.pem" class="d-inline-block toolbar-download-link" download>
+                        <img src="{%static 'WebApp/images/tls-protocol.png'%}" alt="CA Zertifikat Download" title="CA Zertifikat Download">
+                    </a>
+                    {% if ff %}
+                        <a href="{%static 'WebApp/extension/3fa7c53827f945b49161-1.0.xpi'%}" class="d-inline-block toolbar-download-link" download="FF-Extension">
+                            <img src="{% static 'WebApp/images/firefox.png' %}" alt="Firefox Extension Download" title="Firefox Extension Download">
+                        </a>
+                    {% endif %}
+                    {%if request.user.is_superuser %}
+                        <button id="toolbar-refresh-button">Refresh DB</button> 
+                    {% endif %}
+                    <a href="{% url  'logout_url' %}" class="d-inline-block px-1">Logout</a> 
+                </div>
+            </div>
+            {% block search %}
+            {% endblock search %}
+        </div>
+        <div id="table" class="container-fluid px-0 px-md-10vw mw-100 h-100 mt-5 pb-5">
+            {% if list|length == 0 %}
+                <div id="Placeholder" class="h-100 w-100 text-center">Keine Einträge!</div>
+            {% else %}
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="fw-light">Name</th>
+                            <th class="fw-light">Haus</th>
+                            <th class="fw-light">Zielort</th>
+                            <th class="fw-light">Start</th>
+                            {% block th %}
+                                <th class="fw-light">Vermutlich zurück</th>
+                            {% endblock th %}
+                        </tr>
+                    </thead>
+                    <tbody class="infinite-container">
+                        {% block td %}
+                            {% for item in list %}
+                                {% if not item.back %}
+                                    <tr id="{{item.id}}" title="Noch unterwegs" class="infinite-item">
+                                        <td>{{item.owner.get_full_name}}</td>
+                                        <td>{{item.owner.house}}</td>
+                                        <td>{{item.target}}</td>
+                                        <td>{{item.start}}</td>
+                                        <td>{{item.end}}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endblock td %}
+                    </tbody>
+                </table>
+            {% endif %}
+            {% if list.has_next %}
+                    <a class="infinite-more-link d-none"  href="?page={{ list.next_page_number }}">More</a>
+            {% endif %}
+            <div id="spacer" class="container-fluid"></div>
+        </div>
+        <div id="btn-div" class="position-fixed bottom-0 end-0 d-flex justify-content-center align-items-center">
+            <button id="create-modal" class="btn btn-primary d-flex justify-content-center align-items-center rounded-circle" type="button" name="button" data-bs-toggle="modal" data-bs-target="#modal">+</button>
+        </div>
+        <div class="modal" id="modal" data-bs-backdrop="static" role="dialog" aria-hidden="true" data-bs-focus="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form method="post" id="modal-form" action="{% url 'WebApp:create' %}"> 
+                        <div class="modal-header">
+                            <h5 class="modal-title">Neue Tour erstellen</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body"> 
+                            {% crispy tourForm %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                            <button type="submit" class="btn btn-primary">Erstellen</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> 
+    </main>
+    <div id="IconDiv" class="d-none">
+        Icons erstellt von <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/de/" title="Flaticon">www.flaticon.com</a>
+        <a href="https://www.flaticon.com/free-icons/pdf" title="pdf icons">Pdf icons created by Dimitry Miroliubov - Flaticon</a>
+        <a href="https://www.flaticon.com/free-icons/firefox" title="firefox icons">Firefox icons created by Freepik - Flaticon</a>
+    </div>
+</body>
+</html>

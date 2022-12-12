@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'WebApp/css/print.css' %}">
+</head>
+<body>
+    <div id="header_content">
+        <img src="{% static 'WebApp/images/header.jpg' %}" alt="" id="header">
+    </div>
+    <div id="footer_content">
+        <table>
+            <tr>
+                <td id="d">
+                    {{date}}
+                </td>
+                <td id="n">
+                    <pdf:pagenumber>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <h1>Aktuell abwesend</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th class="center">Haus</th>
+                <th>Zielort</th>
+                <th>Start</th>
+                <th>Vermutlich zurück</th>
+            </tr>
+        </thead>
+    </table>
+    {% for item in list %}
+        {% if not item.back %}
+            <table class="table data">
+                <tr>
+                    <td>{{item.owner.get_full_name}}</td>
+                    <td class="center">{{item.owner.house}}</td>
+                    <td>{{item.target}}</td>
+                    <td >{{item.start}}</td>
+                    <td>{{item.end}}</td>
+                </tr> 
+            </table>
+        {% endif %}
+    {% endfor %}
+    {% comment %} table.table.data*100>tr>td{lorem10}+td.center{4}+td{lorem11}*3 {% endcomment %}
+</body>
+</html>
