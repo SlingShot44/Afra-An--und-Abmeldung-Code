@@ -1,0 +1,20 @@
+{
+    "description": "Erweiterung der gleichnamigen Webanwendung für Firefox um die optimale Funktionalität zu gewährleisten. Dafür wird bei WebSocket-Anfragen der Connection-Header modifiziert. Diese Erweiterung dient lediglich der Lösung eines Problems, welches durh diesen entsteht.",
+    "manifest_version": 2,
+    "name": "Afra An- und Abmeldung",
+    "version": "1.0",
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "<all_urls>"
+    ],
+    "icons": {
+        "48": "icons/logo-48.jpg",
+        "96": "icons/logo-96.png"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    }
+}
